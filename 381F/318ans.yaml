@@ -1,0 +1,17 @@
+---
+- name: Show int
+  hosts: routers
+  gather_facts: false
+  connection: network_cli
+  
+  tasks:
+    - name: show int
+      ios_command: 
+        commands: 
+          - show ip interface brief
+      
+      register: output
+    - name: Save output to file on disk
+      copy:
+          content: "{{ output.stdout[0] }}"
+          dest: "intMonitor.txt"
